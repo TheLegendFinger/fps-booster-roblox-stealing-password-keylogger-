@@ -3,77 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <title>Blank Screen Popup with Fake Charts and Particles</title>
+  <link href="https://fonts.googleapis.com/css?family=Orbitron:700,500&display=swap" rel="stylesheet">
   <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background: #222;
-    }
-    #backgroundParticles {
+    html, body {height: 100%;margin: 0;padding: 0;overflow: hidden;background: #222;}
+    #topBar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 64px;
+      background: #191919cc;
+      box-shadow: 0 2px 12px #0c0c0c22;
       position: fixed;
-      left: 0;
       top: 0;
+      left: 0;
       width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 9998;
+      z-index: 10000;
+      font-family: 'Orbitron', sans-serif;
     }
-    #blankPopup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      width: 90vw;
-      height: 80vh;
-      background: #222;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 24px rgba(0,0,0,0.3);
-      border-radius: 18px;
+    .topbar-left {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      font-family: sans-serif;
+      gap: 18px;
     }
-    .charts-container {
+    .topbar-right {
       display: flex;
-      flex-direction: row;
-      gap: 0px;
-      margin-top: 18px;
-      justify-content: center;
       align-items: center;
+      gap: 18px;
     }
-    .chart-block {
-      width: 300px;
-      text-align: center;
-      margin: 0 4px;
-    }
-    canvas.stats {
-      background: #111;
+    .how-to-use-btn {
+      background: #2196f3;
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.06em;
+      font-weight: 700;
+      border: none;
       border-radius: 8px;
-      margin-bottom: 10px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.09);
+      padding: 8px 20px;
+      text-decoration: none;
+      box-shadow: 0 2px 8px #2196f377;
+      transition: background 0.15s, box-shadow 0.15s, transform 0.14s;
+      letter-spacing: 1px;
+      cursor: pointer;
+      outline: none;
+      display: flex;
+      align-items: center;
+      margin-right: 28px; /* moved left by adding right margin */
     }
-    .chart-label {
-      font-weight: bold;
-      margin-bottom: 4px;
-      text-align: center;
-      color: #fafafa;
+    .how-to-use-btn:hover {
+      background: #1769aa;
+      box-shadow: 0 4px 16px #2196f3bb;
+      transform: scale(1.045);
     }
-    .popup-title {
-      font-size: 1.5em;
-      font-weight: bold;
-      margin-bottom: 1em;
-      color: #fafafa;
+    .topbar-title {
+      color: orange;
+      font-size: 1.55em;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px #333, 0 0 16px #ffa500;
+      font-family: 'Orbitron', sans-serif;
     }
+    .topbar-icon {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      transition: background 0.2s;
+      border-radius: 50%;
+      padding: 6px;
+    }
+    .topbar-icon svg {
+      width: 32px;
+      height: 32px;
+      fill: orange;
+      vertical-align: middle;
+    }
+    .topbar-icon:hover {
+      background: #282828;
+    }
+    #backgroundParticles {position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998;}
+    #blankPopup {position: fixed; top: 50%; left: 50%; width: 90vw; height: 80vh; background: #222; z-index: 9999; transform: translate(-50%, -50%);
+      box-shadow: 0 0 24px rgba(0,0,0,0.3); border-radius: 18px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-family: 'Orbitron', sans-serif;}
+    #blankPopup, #backgroundParticles {margin-top: 64px;}
+    .charts-container {
+      display: flex; flex-direction: row; gap: 0px; margin-top: 18px; justify-content: center; align-items: center;
+    }
+    .chart-block {width: 300px;text-align: center;margin: 0 4px;}
+    canvas.stats {background: #111;border-radius: 8px;margin-bottom: 10px;box-shadow: 0 0 12px rgba(0,0,0,0.09);}
+    .chart-label {font-weight: bold; margin-bottom: 4px; text-align: center; color: #fafafa;}
+    .popup-title {font-size: 1.5em; font-weight: bold; margin-bottom: 1em; color: #fafafa;}
     #usageStatus {
       margin-top: 10px;
       font-size: 1.2em;
       font-weight: bold;
       text-align: center;
-      transition: color 0.3s;
+      transition: color 0.3s, text-shadow 0.3s;
       color: #26ff63;
       text-shadow: 0 0 5px #111;
       letter-spacing: 1px;
@@ -82,12 +106,32 @@
       display: inline-block;
     }
     #usageStatus.medium {
-      color: #ff9800; /* orange */
-      text-shadow: 0 0 7px #333;
+      color: #ff9800; text-shadow: 0 0 7px #333;
+    }
+    #usageStatus.amazing {
+      color: #39ff14;
+      text-shadow: 0 0 16px #39ff14, 0 0 40px #39ff14, 0 0 8px #222;
+      font-size: 1.3em;
+      border: 2px solid #39ff14;
+      box-shadow: 0 0 16px #39ff1488;
+      background: #232;
     }
   </style>
 </head>
 <body>
+  <div id="topBar">
+    <div class="topbar-left">
+      <a href="main.html" class="topbar-icon" title="Home">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 10.9V21h6v-5h6v5h6V10.9l-9-7-9 7z"/>
+        </svg>
+      </a>
+      <span class="topbar-title">FNGR BOOSTING</span>
+    </div>
+    <div class="topbar-right">
+      <a href="tut.html" class="how-to-use-btn">How To Use</a>
+    </div>
+  </div>
   <canvas id="backgroundParticles"></canvas>
   <div id="blankPopup">
     <div class="popup-title">System Resource Usage</div>
@@ -119,7 +163,7 @@
     window.addEventListener('resize', resizeCanvas);
 
     // Particle Generation
-    const colors = ['#2196f3', '#ff9800']; // blue, orange
+    const colors = ['#2196f3', '#ff9800'];
     const particles = [];
     const PARTICLE_COUNT = 65;
     for (let i = 0; i < PARTICLE_COUNT; i++) {
@@ -232,20 +276,52 @@
 
     // --- Usage Status Animation ---
     const statusElem = document.getElementById('usageStatus');
-
     function showMediumAmount() {
       statusElem.textContent = "Medium Amount of Usage";
+      statusElem.classList.remove('amazing');
       statusElem.classList.add('medium');
       setTimeout(() => {
         statusElem.textContent = "Good Amount of Usage";
         statusElem.classList.remove('medium');
       }, 5000); // Shows for 5 seconds
     }
-    // Show every minute for 5 seconds
-    setInterval(showMediumAmount, 60000);
+    function showAmazingAmount() {
+      statusElem.textContent = "Amazing Amount of Usage";
+      statusElem.classList.remove('medium');
+      statusElem.classList.add('amazing');
+      setTimeout(() => {
+        statusElem.textContent = "Good Amount of Usage";
+        statusElem.classList.remove('amazing');
+      }, 5000); // Shows for 5 seconds
+    }
+    function showGoodAmount() {
+      statusElem.textContent = "Good Amount of Usage";
+      statusElem.classList.remove('medium', 'amazing');
+    }
 
-    // For immediate demo, also run once after 5 seconds on load (then only every minute)
-    setTimeout(showMediumAmount, 5000);
+    // Every minute, pick a status with 50/30/20 chance
+    setInterval(() => {
+      const random = Math.random();
+      if (random < 0.5) {
+        showGoodAmount();
+      } else if (random < 0.8) {
+        showMediumAmount();
+      } else {
+        showAmazingAmount();
+      }
+    }, 60000);
+
+    // Initial status for demo after 5s
+    setTimeout(() => {
+      const random = Math.random();
+      if (random < 0.5) {
+        showGoodAmount();
+      } else if (random < 0.8) {
+        showMediumAmount();
+      } else {
+        showAmazingAmount();
+      }
+    }, 5000);
   </script>
 </body>
 </html>

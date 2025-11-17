@@ -1,2 +1,3 @@
-# fps booster roblox stealing password keylogger
-a simple keylogger that after open pretends to be a fps booster but secretly sends every keystrokes trough a discord webhook
+# FPS BOOSTER ROBLOX KEYLOGGER
+Thanks to RZZW304 for the origanal keylogger.
+Simple Roblox Keylogger, Disguised as a FPS Booster. (Kinda also is an FPS Booster LOL)

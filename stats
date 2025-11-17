@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Blank Screen Popup with Fake Charts and Particles</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #222;
+    }
+    #backgroundParticles {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9998;
+    }
+    #blankPopup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 90vw;
+      height: 80vh;
+      background: #222;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 24px rgba(0,0,0,0.3);
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: sans-serif;
+    }
+    .charts-container {
+      display: flex;
+      flex-direction: row;
+      gap: 0px;
+      margin-top: 18px;
+      justify-content: center;
+      align-items: center;
+    }
+    .chart-block {
+      width: 300px;
+      text-align: center;
+      margin: 0 4px;
+    }
+    canvas.stats {
+      background: #111;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.09);
+    }
+    .chart-label {
+      font-weight: bold;
+      margin-bottom: 4px;
+      text-align: center;
+      color: #fafafa;
+    }
+    .popup-title {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-bottom: 1em;
+      color: #fafafa;
+    }
+    #usageStatus {
+      margin-top: 10px;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-align: center;
+      transition: color 0.3s;
+      color: #26ff63;
+      text-shadow: 0 0 5px #111;
+      letter-spacing: 1px;
+      padding: 3px 14px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+    #usageStatus.medium {
+      color: #ff9800; /* orange */
+      text-shadow: 0 0 7px #333;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="backgroundParticles"></canvas>
+  <div id="blankPopup">
+    <div class="popup-title">System Resource Usage</div>
+    <div class="charts-container">
+      <div class="chart-block">
+        <div class="chart-label">CPU Usage (%)</div>
+        <canvas class="stats" id="cpuChart" width="260" height="110"></canvas>
+      </div>
+      <div class="chart-block">
+        <div class="chart-label">GPU Usage (%)</div>
+        <canvas class="stats" id="gpuChart" width="260" height="110"></canvas>
+      </div>
+    </div>
+    <div id="usageStatus">Good Amount of Usage</div>
+  </div>
+  <script>
+    // --- Particle Background ---
+    const canvas = document.getElementById('backgroundParticles');
+    const ctx = canvas.getContext('2d');
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    function resizeCanvas() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Particle Generation
+    const colors = ['#2196f3', '#ff9800']; // blue, orange
+    const particles = [];
+    const PARTICLE_COUNT = 65;
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 1.6,
+        vy: (Math.random() - 0.5) * 1.6,
+        radius: 2 + Math.random() * 4,
+        color: colors[Math.random() > 0.5 ? 1 : 0],
+        opacity: 0.4 + Math.random()*0.5
+      });
+    }
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+      for (let p of particles) {
+        ctx.save();
+        ctx.globalAlpha = p.opacity;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        ctx.restore();
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x += width;
+        if (p.x > width) p.x -= width;
+        if (p.y < 0) p.y += height;
+        if (p.y > height) p.y -= height;
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // --- Chart Rendering ---
+    function renderChart(canvas, data, color) {
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      ctx.globalCompositeOperation = "source-over";
+      ctx.fillStyle = "#111";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.restore();
+
+      ctx.strokeStyle = "#aaa";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(14, 98);
+      ctx.lineTo(246, 98);
+      ctx.lineTo(246, 14);
+      ctx.stroke();
+
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2.8;
+      ctx.beginPath();
+      for(let i = 0; i < data.length; i++) {
+        const x = 14 + (232 * i / (data.length-1));
+        const y = 98 - (data[i] - 70) * (84/30);
+        if(i===0) ctx.moveTo(x,y);
+        else ctx.lineTo(x,y);
+      }
+      ctx.stroke();
+
+      ctx.fillStyle = color;
+      for(let i = 0; i < data.length; i++) {
+        const x = 14 + (232 * i / (data.length-1));
+        const y = 98 - (data[i] - 70) * (84/30);
+        ctx.beginPath();
+        ctx.arc(x, y, 3, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+      ctx.fillStyle = "#fff";
+      ctx.font = "bold 16px sans-serif";
+      ctx.fillText(`${Math.round(data[data.length-1])}%`, 202, 32);
+    }
+
+    // Generate moderate to lively random data 70-100%, more variance
+    function getLivelyFakeData(startValue) {
+      let arr = [];
+      let value = typeof startValue === 'number' ? startValue : 85 + Math.random()*10;
+      for(let i=0;i<21;++i) {
+        let delta = (Math.random()-0.5)*8.5;
+        value += delta;
+        if (value < 70) value = 70 + Math.random()*3;
+        if (value > 100) value = 100 - Math.random()*3;
+        arr.push(value);
+      }
+      return arr;
+    }
+    let cpuUsage = getLivelyFakeData();
+    let gpuUsage = getLivelyFakeData();
+
+    function updateCharts() {
+      cpuUsage.shift();
+      gpuUsage.shift();
+      let lastCpu = cpuUsage[cpuUsage.length-1];
+      let lastGpu = gpuUsage[gpuUsage.length-1];
+      let newCpu = lastCpu + (Math.random()-0.5)*6.5;
+      newCpu = Math.max(70, Math.min(100, newCpu));
+      let newGpu = lastGpu + (Math.random()-0.5)*6.5;
+      newGpu = Math.max(70, Math.min(100, newGpu));
+      cpuUsage.push(newCpu);
+      gpuUsage.push(newGpu);
+      renderChart(document.getElementById('cpuChart'), cpuUsage, "#fa4");
+      renderChart(document.getElementById('gpuChart'), gpuUsage, "#4af");
+    }
+    renderChart(document.getElementById('cpuChart'), cpuUsage, "#fa4");
+    renderChart(document.getElementById('gpuChart'), gpuUsage, "#4af");
+    setInterval(updateCharts, 800);
+
+    // --- Usage Status Animation ---
+    const statusElem = document.getElementById('usageStatus');
+
+    function showMediumAmount() {
+      statusElem.textContent = "Medium Amount of Usage";
+      statusElem.classList.add('medium');
+      setTimeout(() => {
+        statusElem.textContent = "Good Amount of Usage";
+        statusElem.classList.remove('medium');
+      }, 5000); // Shows for 5 seconds
+    }
+    // Show every minute for 5 seconds
+    setInterval(showMediumAmount, 60000);
+
+    // For immediate demo, also run once after 5 seconds on load (then only every minute)
+    setTimeout(showMediumAmount, 5000);
+  </script>
+</body>
+</html>

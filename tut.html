@@ -1,1 +1,162 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>How To Use - FNGR BOOSTING</title>
+  <link href="https://fonts.googleapis.com/css?family=Orbitron:700,500&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #222;
+      font-family: 'Orbitron', sans-serif;
+    }
+    #topBar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 64px;
+      background: #191919cc;
+      box-shadow: 0 2px 12px #0c0c0c22;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      z-index: 10000;
+    }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .how-to-use-btn {
+      background: #2196f3;
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.06em;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      text-decoration: none;
+      box-shadow: 0 2px 8px #2196f377;
+      transition: background 0.15s, box-shadow 0.15s, transform 0.14s;
+      letter-spacing: 1px;
+      cursor: pointer;
+      outline: none;
+      display: flex;
+      align-items: center;
+      margin-right: 28px;
+    }
+    .how-to-use-btn:hover {
+      background: #1769aa;
+      box-shadow: 0 4px 16px #2196f3bb;
+      transform: scale(1.045);
+    }
+    .topbar-title {
+      color: orange;
+      font-size: 1.55em;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px #333, 0 0 16px #ffa500;
+    }
+    .topbar-icon {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      transition: background 0.2s;
+      border-radius: 50%;
+      padding: 6px;
+    }
+    .topbar-icon svg {
+      width: 32px;
+      height: 32px;
+      fill: orange;
+      vertical-align: middle;
+    }
+    .topbar-icon:hover {
+      background: #282828;
+    }
+    .content {
+      max-width: 670px;
+      background: #282828e6;
+      margin: 115px auto 24px auto;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px #19191999;
+      padding: 38px 32px 32px 32px;
+    }
+    .content h1 {
+      color: orange;
+      font-size: 2.3em;
+      text-shadow: 0 0 14px #ffae42;
+      margin-bottom: 8px;
+    }
+    .content p, .content li {
+      color: #fafafa;
+      font-size: 1.3em;
+      margin-bottom: 14px;
+      line-height: 1.5em;
+    }
+    .content ul {
+      margin-top: 12px;
+      margin-bottom: 22px;
+      padding-left: 24px;
+    }
+    .back-link {
+      display: inline-block;
+      font-family: 'Orbitron', sans-serif;
+      background: #a74501;
+      color: #fff;
+      text-decoration: none;
+      padding: 11px 38px;
+      border-radius: 10px;
+      font-size: 1.1em;
+      font-weight: 700;
+      margin-top: 10px;
+      box-shadow: 0 3px 14px #a7450180;
+      letter-spacing: 2px;
+      transition: background 0.19s, box-shadow 0.19s, transform 0.18s;
+    }
+    .back-link:hover {
+      background: #c86400;
+      box-shadow: 0 7px 28px #ffae4272;
+      color: #fff;
+      transform: scale(1.045);
+    }
+  </style>
+</head>
+<body>
+  <div id="topBar">
+    <div class="topbar-left">
+      <a href="main.html" class="topbar-icon" title="Home">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 10.9V21h6v-5h6v5h6V10.9l-9-7-9 7z"/>
+        </svg>
+      </a>
+      <span class="topbar-title">FNGR BOOSTING</span>
+    </div>
+    <div class="topbar-right">
+      <a href="tut.html" class="how-to-use-btn">How To Use</a>
+    </div>
+  </div>
+  <div class="content">
+    <h1>How To Use</h1>
+    <p>Welcome to <strong>FNGR BOOSTING</strong> — the best Roblox boosting software.</p>
+    <ul>
+      <li><b>Step 1:</b> On the home page, read the introduction and click <span style="color:orange;">Get Started!</span> to begin boosting.</li>
+      <li><b>Step 2:</b> On the stats page, review CPU, GPU, and FPS statistics to track your improvements.</li>
+      <li><b>Step 3:</b> Use recommended settings as shown in the configuration window for the best performance results.</li>
+      <li><b>Step 4:</b> Return anytime via the home icon (top left), or revisit this tutorial from any page via the <span style="color:#2196f3;">How To Use</span> button.</li>
+    </ul>
+    <p><b>Need help?</b> Click the "How To Use" button on the top bar at any time for more info.</p>
+    <a href="main.html" class="back-link">Back To Home</a>
+  </div>
+</body>
+</html>
